@@ -1,0 +1,122 @@
+export const NUMBERS_DATA = [
+  {
+    num: 1,
+    faNum: '۱',
+    name: 'یک',
+    title: 'یک خورشید تابان',
+    icon: '☀️',
+    color: '#FF7675',
+    bgGradient: 'linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%)',
+    items: ['☀️'],
+    rhyme: 'یک، یه دونه خورشید تابان!',
+    funFact: 'خورشید مهربون به دنیای ما گرما و نور می‌ده!'
+  },
+  {
+    num: 2,
+    faNum: '۲',
+    name: 'دو',
+    title: 'دو تا پروانه قشنگ',
+    icon: '🦋',
+    color: '#74B9FF',
+    bgGradient: 'linear-gradient(135deg, #A1C4FD 0%, #C2E9FB 100%)',
+    items: ['🦋', '🦋'],
+    rhyme: 'دو، دو تا پروانه قشنگ تو گلزار!',
+    funFact: 'پروانه‌ها روی گل‌های خوش‌بو پرواز می‌کنن!'
+  },
+  {
+    num: 3,
+    faNum: '۳',
+    name: 'سه',
+    title: 'سه تا بادکنک رنگارنگ',
+    icon: '🎈',
+    color: '#FD79A8',
+    bgGradient: 'linear-gradient(135deg, #FFB199 0%, #FF0844 100%)',
+    items: ['🎈', '🎈', '🎈'],
+    rhyme: 'سه، سه تا بادکنک شاد و خندان!',
+    funFact: 'بادکنک‌ها دوست دارن تا آسمون بالا برن!'
+  },
+  {
+    num: 4,
+    faNum: '۴',
+    name: 'چهار',
+    title: 'چهار تا سیب سرخ خوشمزه',
+    icon: '🍎',
+    color: '#FF4757',
+    bgGradient: 'linear-gradient(135deg, #FF758C 0%, #FF7EB3 100%)',
+    items: ['🍎', '🍎', '🍎', '🍎'],
+    rhyme: 'چهار، چهار تا سیب سرخ روی درختان!',
+    funFact: 'سیب پر از ویتامینه و به بدن ما انرژی می‌ده!'
+  },
+  {
+    num: 5,
+    faNum: '۵',
+    name: 'پنج',
+    title: 'پنج تا ستاره درخشان',
+    icon: '⭐',
+    color: '#FFBE76',
+    bgGradient: 'linear-gradient(135deg, #F6D365 0%, #FDA085 100%)',
+    items: ['⭐', '⭐', '⭐', '⭐', '⭐'],
+    rhyme: 'پنج، پنج تا ستاره قشنگ در آسمان!',
+    funFact: 'ستاره‌ها شب‌ها مثل الماس چشمک می‌زنن!'
+  },
+  {
+    num: 6,
+    faNum: '۶',
+    name: 'شش',
+    title: 'شش تا بستنی قیفی خنک',
+    icon: '🍦',
+    color: '#55EFC4',
+    bgGradient: 'linear-gradient(135deg, #84FAB0 0%, #8FD3F4 100%)',
+    items: ['🍦', '🍦', '🍦', '🍦', '🍦', '🍦'],
+    rhyme: 'شش، شش تا بستنی قیفی تو دستان!',
+    funFact: 'بستنی توی تابستون حسابی می‌چسبه!'
+  },
+  {
+    num: 7,
+    faNum: '۷',
+    name: 'هفت',
+    title: 'هفت تا گل زیبا',
+    icon: '🌸',
+    color: '#E056FD',
+    bgGradient: 'linear-gradient(135deg, #D4FC79 0%, #96E6A1 100%)',
+    items: ['🌸', '🌸', '🌸', '🌸', '🌸', '🌸', '🌸'],
+    rhyme: 'هفت، هفت تا گل نیلوفر توی گلدان!',
+    funFact: 'رنگین‌کمان هم هفت تا رنگ خوشگل داره!'
+  },
+  {
+    num: 8,
+    faNum: '۸',
+    name: 'هشت',
+    title: 'هشت تا جوجه کوچولو',
+    icon: '🐥',
+    color: '#F9CA24',
+    bgGradient: 'linear-gradient(135deg, #FFE259 0%, #FFA751 100%)',
+    items: ['🐥', '🐥', '🐥', '🐥', '🐥', '🐥', '🐥', '🐥'],
+    rhyme: 'هشت، هشت تا جوجه جیک‌جیکو و خندان!',
+    funFact: 'جوجه‌های زرد و نرم با مامان مرغه بازی می‌کنن!'
+  },
+  {
+    num: 9,
+    faNum: '۹',
+    name: 'نه',
+    title: 'نه تا توت فرنگی شیرین',
+    icon: '🍓',
+    color: '#EB4D4B',
+    bgGradient: 'linear-gradient(135deg, #FA709A 0%, #FEE140 100%)',
+    items: ['🍓', '🍓', '🍓', '🍓', '🍓', '🍓', '🍓', '🍓', '🍓'],
+    rhyme: 'نه، نه تا توت فرنگی توی بشقاب!',
+    funFact: 'توت‌فرنگی میوه مورد علاقه خیلی از بچه‌هاست!'
+  },
+  {
+    num: 10,
+    faNum: '۱۰',
+    name: 'ده',
+    title: 'ده تا ماهی رنگین‌کمان',
+    icon: '🐟',
+    color: '#0984E3',
+    bgGradient: 'linear-gradient(135deg, #667EEA 0%, #764BA2 100%)',
+    items: ['🐟', '🐟', '🐟', '🐟', '🐟', '🐟', '🐟', '🐟', '🐟', '🐟'],
+    rhyme: 'ده، ده تا ماهی قشنگ توی آب!',
+    funFact: 'ده تا انگشت مهربون توی دست‌های آوا جونه!'
+  }
+];

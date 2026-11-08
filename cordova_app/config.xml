@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="ir.ava.wonderworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>دنیای شگفت‌انگیز آوا</name>
+    <description>بازی شاد و آموزشی اعداد و الفبای فارسی برای آوا جون</description>
+    <author email="support@ava.ir" href="https://github.com">Ava Team</author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+
+    <!-- Android 5+ Optimization for 7-inch Tablet -->
+    <preference name="Orientation" value="landscape" />
+    <preference name="Fullscreen" value="true" />
+    <preference name="BackgroundColor" value="0xFFFFEBF2" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-targetSdkVersion" value="33" />
+    <preference name="HardwareAcceleration" value="true" />
+    <preference name="KeepRunning" value="true" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="ShowTitle" value="false" />
+
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+</widget>
