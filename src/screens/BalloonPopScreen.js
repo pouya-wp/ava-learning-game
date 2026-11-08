@@ -149,22 +149,25 @@ export class BalloonPopScreen {
 
     const el = document.createElement('div');
     el.className = 'game-balloon';
-    el.style.setProperty('--balloon-color', color);
     el.style.left = `${x}px`;
     el.style.bottom = `-130px`;
 
     el.innerHTML = `
-      <div class="balloon-body">
+      <div class="balloon-body" style="background-color: ${color};">
         <span class="balloon-text">${label}</span>
       </div>
       <div class="balloon-string"></div>
     `;
 
     // Touch / Click event
-    el.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      this.popBalloon(el, value, e.clientX, e.clientY);
-    });
+    const handlePop = (e) => {
+      if (e.cancelable) e.preventDefault();
+      const cx = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : window.innerWidth / 2);
+      const cy = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : window.innerHeight / 2);
+      this.popBalloon(el, value, cx, cy);
+    };
+    el.addEventListener('touchstart', handlePop, { passive: false });
+    el.addEventListener('mousedown', handlePop);
 
     this.playfield.appendChild(el);
 

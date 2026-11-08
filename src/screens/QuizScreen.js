@@ -129,7 +129,7 @@ export class QuizScreen {
     this.questionVisual.innerHTML = this.currentQuestion.visual;
 
     this.optionsGrid.innerHTML = this.currentQuestion.options.map(opt => `
-      <button class="quiz-opt-card" data-val="${opt.val}" style="--opt-color: ${opt.color}">
+      <button class="quiz-opt-card" data-val="${opt.val}" style="border-color: ${opt.color}; color: ${opt.color}; --opt-color: ${opt.color}">
         <span class="opt-label">${opt.label}</span>
         ${opt.subLabel ? `<span class="opt-sub">${opt.subLabel}</span>` : ''}
       </button>

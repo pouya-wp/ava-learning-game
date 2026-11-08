@@ -19,13 +19,35 @@ class SpeechEngine {
   }
 
   initVoices() {
-    if (!this.synth) return;
-    const voices = this.synth.getVoices();
-    // Try to find a Persian voice, or an Arabic/fallback voice with good phonetics
-    this.voice = voices.find(v => v.lang.startsWith('fa')) ||
-                 voices.find(v => v.lang.includes('IR')) ||
-                 voices.find(v => v.lang.startsWith('ar')) ||
-                 null;
+    try {
+      if (!this.synth || typeof this.synth.getVoices !== 'function') return;
+      var voices = this.synth.getVoices();
+      if (!voices || !voices.length) return;
+
+      var faVoice = null;
+      var irVoice = null;
+      var arVoice = null;
+
+      for (var i = 0; i < voices.length; i++) {
+        var v = voices[i];
+        if (v && v.lang) {
+          var lang = v.lang.toLowerCase();
+          if (lang.indexOf('fa') === 0) {
+            faVoice = v;
+            break;
+          }
+          if (lang.indexOf('ir') !== -1 && !irVoice) {
+            irVoice = v;
+          }
+          if (lang.indexOf('ar') === 0 && !arVoice) {
+            arVoice = v;
+          }
+        }
+      }
+      this.voice = faVoice || irVoice || arVoice || null;
+    } catch (e) {
+      this.voice = null;
+    }
   }
 
   speak(text, onComplete) {

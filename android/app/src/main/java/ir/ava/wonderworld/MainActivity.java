@@ -2,6 +2,7 @@ package ir.ava.wonderworld;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,11 +11,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import androidx.webkit.WebViewAssetLoader;
 
 public class MainActivity extends Activity {
     private static final String TAG = "AvaGame";
@@ -37,7 +39,7 @@ public class MainActivity extends Activity {
         setImmersiveMode();
 
         webView = new WebView(this);
-        // Set warm pastel background matching game theme so no white flash ever occurs
+        // Matching pastel background color
         webView.setBackgroundColor(Color.parseColor("#FFEBF2"));
 
         WebSettings settings = webView.getSettings();
@@ -54,10 +56,11 @@ public class MainActivity extends Activity {
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(false);
 
-        // Hardware acceleration
-        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        // Standard AndroidAssetLoader from androidx.webkit
+        final WebViewAssetLoader assetLoader = new WebViewAssetLoader.Builder()
+            .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
+            .build();
 
-        // Log web console errors for easy debugging
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onConsoleMessage(ConsoleMessage cm) {
@@ -68,13 +71,40 @@ public class MainActivity extends Activity {
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                return assetLoader.shouldInterceptRequest(request.getUrl());
+            }
+
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                return assetLoader.shouldInterceptRequest(Uri.parse(url));
+            }
+
+            @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Log.e(TAG, "WebView error: " + description + " at " + failingUrl);
+                Log.e(TAG, "WebView error (" + errorCode + "): " + description + " at " + failingUrl);
+                if (failingUrl != null && failingUrl.contains("appassets.androidplatform.net")) {
+                    Log.i(TAG, "Falling back to local file:///android_asset/ scheme...");
+                    view.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            view.loadUrl("file:///android_asset/index.html");
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.d(TAG, "Page loaded successfully: " + url);
             }
         });
 
         setContentView(webView);
-        webView.loadUrl("file:///android_asset/index.html");
+
+        // Load through https appassets scheme
+        webView.loadUrl("https://appassets.androidplatform.net/assets/index.html");
     }
 
     private void setImmersiveMode() {

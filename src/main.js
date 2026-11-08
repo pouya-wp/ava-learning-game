@@ -17,7 +17,16 @@ class AvaGameApp {
     this.currentScreen = 'home';
     this.sounds = sounds;
     this.speech = speech;
-    this.stars = parseInt(localStorage.getItem('ava_stars') || '5', 10);
+    this.stars = 5;
+
+    try {
+      const saved = localStorage.getItem('ava_stars');
+      if (saved) {
+        this.stars = parseInt(saved, 10);
+      }
+    } catch (e) {
+      this.stars = 5;
+    }
 
     this.screens = {
       'home': new HomeScreen(this),
@@ -35,6 +44,8 @@ class AvaGameApp {
 
   init() {
     const appEl = document.getElementById('app');
+    if (!appEl) return;
+
     appEl.innerHTML = `
       <canvas id="particle-canvas"></canvas>
       <div id="screen-container" class="screen-container"></div>
@@ -42,30 +53,25 @@ class AvaGameApp {
     `;
 
     const canvas = document.getElementById('particle-canvas');
-    this.particles = new ParticleSystem(canvas);
+    if (canvas) {
+      this.particles = new ParticleSystem(canvas);
+    }
 
     const mascotMount = document.getElementById('mascot-mount');
-    this.mascot = new Mascot(mascotMount, this.speech);
+    if (mascotMount) {
+      this.mascot = new Mascot(mascotMount, this.speech);
+    }
 
     // Initial user gesture listener to unlock AudioContext
     const unlockAudio = () => {
       this.sounds.ensureContext();
-      window.removeEventListener('pointerdown', unlockAudio);
-      window.removeEventListener('keydown', unlockAudio);
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
     };
-    window.addEventListener('pointerdown', unlockAudio);
-    window.addEventListener('keydown', unlockAudio);
+    window.addEventListener('click', unlockAudio);
+    window.addEventListener('touchstart', unlockAudio);
 
     this.navigateTo('home');
-
-    // Register Service Worker for offline play
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => {
-          console.log('SW registration note:', err);
-        });
-      });
-    }
   }
 
   getStars() {
@@ -74,7 +80,9 @@ class AvaGameApp {
 
   addStar(count = 1) {
     this.stars += count;
-    localStorage.setItem('ava_stars', this.stars.toString());
+    try {
+      localStorage.setItem('ava_stars', this.stars.toString());
+    } catch (e) {}
 
     // Update stars on current screen if element exists
     const starEls = document.querySelectorAll('.star-num');
@@ -138,7 +146,22 @@ class AvaGameApp {
   }
 }
 
-// Start app
-window.addEventListener('DOMContentLoaded', () => {
-  window.appInstance = new AvaGameApp();
-});
+// Safe App Launcher with immediate start & error boundary
+function startApp() {
+  if (window.appInstance) return;
+  try {
+    window.appInstance = new AvaGameApp();
+  } catch (err) {
+    console.error('App launch error:', err);
+    var el = document.getElementById('app');
+    if (el) {
+      el.innerHTML = '<div style="background:#FF6B8B;color:#FFF;padding:20px;text-align:center;font-size:18px;">🌸 سلام آوا جون! در حال باز کردن بازی...<br><span style="font-size:11px;opacity:0.8;">' + (err ? err.message : '') + '</span></div>';
+    }
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startApp);
+} else {
+  startApp();
+}

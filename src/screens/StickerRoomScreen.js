@@ -149,37 +149,56 @@ export class StickerRoomScreen {
     let startX = 0, startY = 0;
     let origLeft = 0, origTop = 0;
 
-    const onPointerDown = (e) => {
+    const onStart = (clientX, clientY) => {
       isDragging = true;
-      el.setPointerCapture(e.pointerId);
-      startX = e.clientX;
-      startY = e.clientY;
+      startX = clientX;
+      startY = clientY;
       origLeft = parseFloat(el.style.left) || 0;
       origTop = parseFloat(el.style.top) || 0;
       el.classList.add('dragging');
     };
 
-    const onPointerMove = (e) => {
+    const onMove = (clientX, clientY) => {
       if (!isDragging) return;
-      const dx = e.clientX - startX;
-      const dy = e.clientY - startY;
+      const dx = clientX - startX;
+      const dy = clientY - startY;
       el.style.left = `${origLeft + dx}px`;
       el.style.top = `${origTop + dy}px`;
-      this.app.particles.addSparkle(e.clientX, e.clientY);
+      this.app.particles.addSparkle(clientX, clientY);
     };
 
-    const onPointerUp = (e) => {
+    const onEnd = () => {
       if (!isDragging) return;
       isDragging = false;
       el.classList.remove('dragging');
-      try {
-        el.releasePointerCapture(e.pointerId);
-      } catch (_) {}
     };
 
-    el.addEventListener('pointerdown', onPointerDown);
-    el.addEventListener('pointermove', onPointerMove);
-    el.addEventListener('pointerup', onPointerUp);
-    el.addEventListener('pointercancel', onPointerUp);
+    // Touch events for Android tablet
+    el.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches[0]) {
+        onStart(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (isDragging && e.touches && e.touches[0]) {
+        onMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', onEnd);
+
+    // Mouse fallback
+    el.addEventListener('mousedown', (e) => {
+      onStart(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) {
+        onMove(e.clientX, e.clientY);
+      }
+    });
+
+    window.addEventListener('mouseup', onEnd);
   }
 }

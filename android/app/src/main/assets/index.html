@@ -5,9 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>دنیای شگفت‌انگیز آوا</title>
   <meta name="theme-color" content="#FF6B8B">
+  <style>
+    html, body {
+      background-color: #FFEBF2 !important;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Tahoma, Arial, sans-serif;
+    }
+  </style>
   <link rel="stylesheet" href="./style.css">
+  <script>
+    window.onerror = function(msg, url, line) {
+      console.error('JS Error:', msg, 'Line:', line);
+      var el = document.getElementById('app');
+      if (el && !window.appInstance) {
+        el.innerHTML = '<div style="background:#FF6B8B;color:#FFF;padding:24px;text-align:center;font-size:18px;font-family:sans-serif;">🌸 سلام آوا جونم! بازی در حال آماده‌شدنه...<br><span style="font-size:12px;opacity:0.9;">' + msg + ' (' + line + ')</span></div>';
+      }
+    };
+  </script>
 </head>
-<body style="background: #FFEBF2; margin:0; padding:0;">
+<body style="background-color: #FFEBF2; margin:0; padding:0;">
   <div id="app"></div>
   <script src="./app.bundle.js"></script>
 </body>

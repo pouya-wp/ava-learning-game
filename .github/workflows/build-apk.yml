@@ -45,33 +45,38 @@ jobs:
 
       - name: Prepare APK Artifact
         run: |
-          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} ./AvaGame-v1.0.1.apk \;
-          ls -la AvaGame-v1.0.1.apk
+          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} ./AvaGame-v1.0.2.apk \;
+          ls -la AvaGame-v1.0.2.apk
 
       - name: Upload APK to Actions Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: AvaGame-v1.0.1-APK
-          path: ./AvaGame-v1.0.1.apk
+          name: AvaGame-v1.0.2-APK
+          path: ./AvaGame-v1.0.2.apk
           if-no-files-found: error
 
       - name: Create GitHub Release with APK
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         with:
-          tag_name: v1.0.1
-          name: "🌸 بازی دنیای شگفت‌انگیز آوا v1.0.1 (حل قطعی مشکل صفحه سفید تبلت)"
+          tag_name: v1.0.2
+          name: "🌸 بازی دنیای شگفت‌انگیز آوا v1.0.2 (نسخه فوق‌العاده سازگار با اندروید ۵ و حل کامل صفحه سفید)"
           body: |
-            ## 🌸 بازی آموزشی «دنیای شگفت‌انگیز آوا» v1.0.1
+            ## 🌸 بازی آموزشی «دنیای شگفت‌انگیز آوا» v1.0.2
             ویژه تبلت‌های ۷ اینچی و اندروید ۵ به بالا (Android 5.0 Lollipop+)
 
-            ### ✨ تغییرات مهم در این نسخه:
-            - **حل قطعی مشکل صفحه سفید تبلت:** تبدیل تمامی کدهای بازی به جاوااسکریپت خالص ES5 سازگار با نسخه قدیمی WebView اندروید ۵.
-            - حذف تگ‌های module و SystemJS که در مرورگرهای قدیمی اندروید باعث مسدود شدن اجرای برنامه می‌شدند.
-            - اجرای مستقل آفلاین بدون نیاز به اتصال اینترنت.
+            ### ✨ تغییرات مهم و حیاتی در نسخه v1.0.2:
+            - **حل قطعی و نهایی صفحه سفید:**
+              ۱. اضافه شدن پلی‌فیل‌های کامل برای مرورگرهای قدیمی اندروید ۵ (شامل NodeList.forEach، Array.find، startsWith، includes و غیره).
+              ۲. حل مشکل امنیتی localStorage در حالت فایل با ایجاد حافظه داخلی موازی (In-memory fallback).
+              ۳. حذف حالت شتاب‌سخت‌افزاری تکراری لایه WebView که باعث قفل شدن کارت‌های گرافیک ضعیف تبلت می‌شد.
+              ۴. پشتیبانی کامل از رویدادهای لمسی واقعی (touchstart/touchmove) به جای Pointer Events.
+              ۵. استفاده از لودر اختصاصی WebViewAssetLoader و فال‌بک خودکار به file scheme.
+            - اجرای ۱۰۰٪ آفلاین و پرسرعت.
 
-            ### 📱 دانلود فایل نصبی:
-            فایل **`AvaGame-v1.0.1.apk`** را دانلود کرده و مستقیماً روی تبلت نصب کنید.
-          files: ./AvaGame-v1.0.1.apk
+            ### 📱 راهنمای نصب روی تبلت:
+            ۱. لطفاً نسخه قبلی را از روی تبلت لغو نصب (Uninstall) کنید.
+            ۲. فایل **`AvaGame-v1.0.2.apk`** را دانلود کرده و نصب کنید.
+          files: ./AvaGame-v1.0.2.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

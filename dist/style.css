@@ -31,9 +31,9 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: var(--font-family);
+  font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Tahoma, Arial, sans-serif;
   direction: rtl;
-  background: var(--bg-gradient);
+  background: linear-gradient(135deg, #FFEBF2 0%, #E8F0FE 50%, #F5ECFF 100%);
   touch-action: manipulation;
   color: #2D3436;
 }
@@ -286,7 +286,7 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 8px 24px rgba(255, 107, 139, 0.18), 0 2px 6px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   border: 3px solid transparent;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -518,8 +518,8 @@ html, body {
 }
 
 .letter-tile {
-  background: var(--tile-bg, #FFF);
-  border: 3px solid var(--tile-color, #FF6B8B);
+  background: #FFF;
+  border: 3px solid #FF6B8B;
   border-radius: 18px;
   padding: 8px 4px;
   display: flex;
@@ -538,7 +538,7 @@ html, body {
 .letter-tile-char {
   font-size: 28px;
   font-weight: 900;
-  color: var(--tile-color, #FF6B8B);
+  color: #FF6B8B;
   line-height: 1;
 }
 
@@ -623,7 +623,7 @@ html, body {
   width: 120px;
   height: 120px;
   background: linear-gradient(135deg, #FFEBF2, #F5ECFF);
-  border: 4px solid var(--accent-color, #FF6B8B);
+  border: 4px solid #FF6B8B;
   border-radius: 24px;
   display: flex;
   align-items: center;
@@ -635,7 +635,7 @@ html, body {
 .modal-char {
   font-size: 72px;
   font-weight: 900;
-  color: var(--accent-color, #FF6B8B);
+  color: #FF6B8B;
 }
 
 .modal-details {
@@ -732,7 +732,7 @@ html, body {
 
 .number-tab-btn {
   background: #FFFFFF;
-  border: 3px solid var(--tab-color, #FF6B8B);
+  border: 3px solid #FF6B8B;
   border-radius: 18px;
   padding: 6px 14px;
   display: flex;
@@ -744,7 +744,7 @@ html, body {
 }
 
 .number-tab-btn.active {
-  background: var(--tab-color, #FF6B8B);
+  background: #FF6B8B;
   color: #FFFFFF;
   transform: scale(1.05);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
@@ -1028,7 +1028,7 @@ html, body {
 .balloon-body {
   width: 80px;
   height: 95px;
-  background: var(--balloon-color, #FF6B8B);
+  background: #FF6B8B;
   border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
   display: flex;
   align-items: center;
@@ -1046,7 +1046,7 @@ html, body {
   left: 36px;
   width: 8px;
   height: 6px;
-  background: var(--balloon-color, #FF6B8B);
+  background: #FF6B8B;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
@@ -1256,7 +1256,7 @@ html, body {
   border-radius: 24px;
   padding: 16px 24px;
   text-align: center;
-  box-shadow: var(--card-shadow);
+  box-shadow: 0 8px 24px rgba(255, 107, 139, 0.18), 0 2px 6px rgba(0, 0, 0, 0.05);
   border: 3px solid #E2E8F0;
   margin-bottom: 14px;
 }
@@ -1310,7 +1310,7 @@ html, body {
 
 .quiz-opt-card {
   background: #FFFFFF;
-  border: 4px solid var(--opt-color, #FF6B8B);
+  border: 4px solid #FF6B8B;
   border-radius: 24px;
   display: flex;
   flex-direction: column;
@@ -1328,7 +1328,7 @@ html, body {
 .opt-label {
   font-size: 48px;
   font-weight: 900;
-  color: var(--opt-color, #FF6B8B);
+  color: #FF6B8B;
 }
 
 .opt-sub {

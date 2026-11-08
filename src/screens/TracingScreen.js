@@ -125,19 +125,35 @@ export class TracingScreen {
       this.isDrawing = false;
     };
 
-    // Pointer events for touch & mouse
-    this.canvas.addEventListener('pointerdown', (e) => {
+    // Touch & Mouse events
+    const getPos = (e) => {
       const rect = this.canvas.getBoundingClientRect();
-      startDraw(e.clientX - rect.left, e.clientY - rect.top);
-    });
+      const clientX = e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches && e.touches[0] ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    };
 
-    this.canvas.addEventListener('pointermove', (e) => {
-      const rect = this.canvas.getBoundingClientRect();
-      draw(e.clientX - rect.left, e.clientY - rect.top);
+    this.canvas.addEventListener('mousedown', (e) => {
+      const pos = getPos(e);
+      startDraw(pos.x, pos.y);
     });
+    this.canvas.addEventListener('mousemove', (e) => {
+      const pos = getPos(e);
+      draw(pos.x, pos.y);
+    });
+    window.addEventListener('mouseup', stopDraw);
 
-    this.canvas.addEventListener('pointerup', stopDraw);
-    this.canvas.addEventListener('pointercancel', stopDraw);
+    this.canvas.addEventListener('touchstart', (e) => {
+      if (e.cancelable) e.preventDefault();
+      const pos = getPos(e);
+      startDraw(pos.x, pos.y);
+    }, { passive: false });
+    this.canvas.addEventListener('touchmove', (e) => {
+      if (e.cancelable) e.preventDefault();
+      const pos = getPos(e);
+      draw(pos.x, pos.y);
+    }, { passive: false });
+    this.canvas.addEventListener('touchend', stopDraw);
   }
 
   clearCanvas() {

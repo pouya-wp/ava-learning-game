@@ -4,7 +4,7 @@ export class NumberLearnScreen {
   constructor(app) {
     this.app = app;
     this.activeNumIdx = 0;
-    this.countedItems = new Set();
+    this.countedItems = {};
   }
 
   render() {
@@ -27,7 +27,7 @@ export class NumberLearnScreen {
         <!-- Number selector bar (1 to 10) -->
         <nav class="number-strip" id="number-strip">
           ${NUMBERS_DATA.map((item, idx) => `
-            <button class="number-tab-btn ${idx === this.activeNumIdx ? 'active' : ''}" data-idx="${idx}" style="--tab-color: ${item.color}">
+            <button class="number-tab-btn ${idx === this.activeNumIdx ? 'active' : ''}" data-idx="${idx}" style="border-color: ${item.color}; --tab-color: ${item.color}">
               <span class="tab-digit">${item.faNum}</span>
               <span class="tab-name">${item.name}</span>
             </button>
@@ -61,7 +61,7 @@ export class NumberLearnScreen {
 
   selectNumber(idx) {
     this.activeNumIdx = idx;
-    this.countedItems.clear();
+    this.countedItems = {};
     const item = NUMBERS_DATA[idx];
 
     // Update strip active tab
@@ -163,15 +163,15 @@ export class NumberLearnScreen {
   }
 
   tapCountingItem(element, itemIdx, item) {
-    if (this.countedItems.has(itemIdx)) {
+    if (this.countedItems[itemIdx]) {
       this.app.sounds.playPop();
       element.classList.add('bounce');
       setTimeout(() => element.classList.remove('bounce'), 400);
       return;
     }
 
-    this.countedItems.add(itemIdx);
-    const countSoFar = this.countedItems.size;
+    this.countedItems[itemIdx] = true;
+    const countSoFar = Object.keys(this.countedItems).length;
     const persianCount = this.app.toPersianDigits(countSoFar);
 
     element.classList.add('counted');
@@ -194,7 +194,7 @@ export class NumberLearnScreen {
     }
 
     // Check completion
-    if (this.countedItems.size === item.num) {
+    if (countSoFar === item.num) {
       setTimeout(() => {
         this.app.sounds.playCelebration();
         this.app.addStar(2);

@@ -63,10 +63,16 @@ export class AlphabetLearnScreen {
   renderLettersGrid(filter) {
     const letters = this.getFilteredLetters(filter);
     return letters.map((item) => {
-      const globalIdx = ALPHABET_DATA.findIndex(l => l.letter === item.letter);
+      let globalIdx = 0;
+      for (let i = 0; i < ALPHABET_DATA.length; i++) {
+        if (ALPHABET_DATA[i].letter === item.letter) {
+          globalIdx = i;
+          break;
+        }
+      }
       return `
-        <div class="letter-tile" data-idx="${globalIdx}" style="--tile-color: ${item.color}; --tile-bg: ${item.bg}">
-          <div class="letter-tile-char">${item.letter}</div>
+        <div class="letter-tile" data-idx="${globalIdx}" style="background-color: ${item.bg}; border-color: ${item.color}; --tile-color: ${item.color}; --tile-bg: ${item.bg}">
+          <div class="letter-tile-char" style="color: ${item.color};">${item.letter}</div>
           <div class="letter-tile-icon">${item.icon}</div>
           <div class="letter-tile-word">${item.word}</div>
         </div>
@@ -134,7 +140,7 @@ export class AlphabetLearnScreen {
     card.innerHTML = `
       <button class="modal-close-btn" id="btn-close-modal">✕</button>
 
-      <div class="modal-body" style="--accent-color: ${item.color}">
+      <div class="modal-body" style="border-color: ${item.color}; --accent-color: ${item.color}">
         <div class="modal-char-wrap">
           <span class="modal-char">${item.letter}</span>
         </div>
