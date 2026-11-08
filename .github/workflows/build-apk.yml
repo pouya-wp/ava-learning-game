@@ -26,8 +26,6 @@ jobs:
         run: |
           npm install
           npm run build
-          mkdir -p android/app/src/main/assets
-          cp -r dist/* android/app/src/main/assets/
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -47,29 +45,33 @@ jobs:
 
       - name: Prepare APK Artifact
         run: |
-          mkdir -p output_apk
-          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} ./AvaGame-v1.0.apk \;
-          ls -la AvaGame-v1.0.apk
+          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} ./AvaGame-v1.0.1.apk \;
+          ls -la AvaGame-v1.0.1.apk
 
       - name: Upload APK to Actions Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: AvaGame-v1.0-APK
-          path: ./AvaGame-v1.0.apk
+          name: AvaGame-v1.0.1-APK
+          path: ./AvaGame-v1.0.1.apk
           if-no-files-found: error
 
       - name: Create GitHub Release with APK
         uses: softprops/action-gh-release@v2
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         with:
-          tag_name: v1.0.0
-          name: "🌸 بازی دنیای شگفت‌انگیز آوا v1.0.0 (فایل نصبی APK)"
+          tag_name: v1.0.1
+          name: "🌸 بازی دنیای شگفت‌انگیز آوا v1.0.1 (حل قطعی مشکل صفحه سفید تبلت)"
           body: |
-            ## 🌸 بازی آموزشی «دنیای شگفت‌انگیز آوا» (Ava's Wonder World)
+            ## 🌸 بازی آموزشی «دنیای شگفت‌انگیز آوا» v1.0.1
             ویژه تبلت‌های ۷ اینچی و اندروید ۵ به بالا (Android 5.0 Lollipop+)
 
+            ### ✨ تغییرات مهم در این نسخه:
+            - **حل قطعی مشکل صفحه سفید تبلت:** تبدیل تمامی کدهای بازی به جاوااسکریپت خالص ES5 سازگار با نسخه قدیمی WebView اندروید ۵.
+            - حذف تگ‌های module و SystemJS که در مرورگرهای قدیمی اندروید باعث مسدود شدن اجرای برنامه می‌شدند.
+            - اجرای مستقل آفلاین بدون نیاز به اتصال اینترنت.
+
             ### 📱 دانلود فایل نصبی:
-            فایل **`AvaGame-v1.0.apk`** را دانلود کرده و مستقیماً روی تبلت نصب کنید.
-          files: ./AvaGame-v1.0.apk
+            فایل **`AvaGame-v1.0.1.apk`** را دانلود کرده و مستقیماً روی تبلت نصب کنید.
+          files: ./AvaGame-v1.0.1.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

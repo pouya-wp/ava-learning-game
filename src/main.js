@@ -1,4 +1,3 @@
-import './style.css';
 import { sounds } from './audio/soundEngine.js';
 import { speech } from './audio/speechEngine.js';
 import { ParticleSystem } from './components/particleCanvas.js';

@@ -1,22 +1,33 @@
 package ir.ava.wonderworld;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class MainActivity extends Activity {
+    private static final String TAG = "AvaGame";
     private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Enable remote debugging via Chrome DevTools (chrome://inspect)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
 
         // Fullscreen immersive landscape
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -26,6 +37,9 @@ public class MainActivity extends Activity {
         setImmersiveMode();
 
         webView = new WebView(this);
+        // Set warm pastel background matching game theme so no white flash ever occurs
+        webView.setBackgroundColor(Color.parseColor("#FFEBF2"));
+
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -40,11 +54,24 @@ public class MainActivity extends Activity {
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(false);
 
-        // Enable hardware acceleration
+        // Hardware acceleration
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-        webView.setWebViewClient(new WebViewClient());
-        webView.setWebChromeClient(new WebChromeClient());
+        // Log web console errors for easy debugging
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage cm) {
+                Log.d(TAG, "[Console] " + cm.message() + " (line " + cm.lineNumber() + ")");
+                return true;
+            }
+        });
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Log.e(TAG, "WebView error: " + description + " at " + failingUrl);
+            }
+        });
 
         setContentView(webView);
         webView.loadUrl("file:///android_asset/index.html");

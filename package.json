@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node build-es5.cjs",
     "preview": "vite preview"
   },
   "devDependencies": {
@@ -14,5 +14,8 @@
     "canvas-confetti": "^1.9.4",
     "terser": "^5.51.2",
     "vite": "^8.3.6"
+  },
+  "dependencies": {
+    "rollup": "^4.68.0"
   }
 }
