@@ -37,16 +37,18 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.4'
 
       - name: Build APK with Gradle
         run: |
           cd android
-          gradle assembleRelease
+          gradle assembleRelease --stacktrace
 
       - name: Prepare APK Artifact
         run: |
-          find android/app/build/outputs/apk/ -name "*.apk"
-          cp android/app/build/outputs/apk/release/*.apk ./AvaGame-v1.0.apk || cp android/app/build/outputs/apk/debug/*.apk ./AvaGame-v1.0.apk
+          mkdir -p output_apk
+          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} ./AvaGame-v1.0.apk \;
           ls -la AvaGame-v1.0.apk
 
       - name: Upload APK to Actions Artifacts
